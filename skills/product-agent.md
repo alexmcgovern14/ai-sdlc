@@ -1,6 +1,6 @@
 # Skill: product-agent
 
-Take requirements from the conversation and create a Linear Project (Epic equivalent) with a full breakdown of child issues, ready for engineering.
+Take requirements from the conversation and create a Linear Project (Epic equivalent) with a full breakdown of child issues, then notify #dev-tasks in Slack.
 
 ## Linear orientation (from Jira)
 In Linear, the equivalent of a **Jira Epic** is a **Project** — a container for a body of work with a goal and timeframe. The equivalent of **Jira Stories/Tasks** are **Issues**. Issues belong to a Project and a Team.
@@ -12,8 +12,8 @@ Use this skill after requirements have been gathered and the user is ready to pu
 
 ## Process
 
-### Step 1 — Get the team ID
-Call `linear_get_teams` to retrieve available teams and their IDs. Use the team that matches the work (default: the user's primary team).
+### Step 1 — Get the team
+Call `mcp__linear__list_teams` to get available teams. Use `Alexmcgovern` as the default team (ID: `71b0864d-1e36-4202-84e8-92ed9c495b39`).
 
 ### Step 2 — Synthesise requirements
 From the conversation, extract:
@@ -27,9 +27,9 @@ For each issue, define:
 - **Title:** Action-oriented verb phrase (e.g. "Ingest Intercom tickets via API")
 - **Description:** What needs to be built, why, and any context the engineer needs
 - **Acceptance criteria:** 2–4 bullet points that define done (prefix each with `- [ ]`)
-- **Size hint:** S / M / L — target 1–3 days per issue; split anything larger
+- **Priority:** 1=Urgent, 2=High, 3=Normal, 4=Low
 
-Aim for 4–8 issues per project. Start with the foundation/platform issues, then feature issues, then integration/testing.
+Aim for 4–8 issues per project. Order: foundation first, then features, then integration/docs.
 
 Structure each issue description as:
 
@@ -50,19 +50,36 @@ Structure each issue description as:
 ```
 
 ### Step 4 — Create in Linear
-Call `linear_create_project_with_issues` with:
-- `project.name` — project name
-- `project.description` — project description
-- `project.teamIds` — array containing the team ID from Step 1
-- `issues` — array of all issues, each with `title`, `description`, and `teamId`
+1. Call `mcp__linear__save_project` with `name`, `description`, and `addTeams: ["Alexmcgovern"]`
+2. For each issue, call `mcp__linear__save_issue` with `title`, `description`, `team: "Alexmcgovern"`, `project: <project name>`, and `priority`
+3. Note each returned issue identifier (e.g. ALE-12) and URL
 
-### Step 5 — Report back
+### Step 5 — Post to Slack #dev-tasks
+After all issues are created, post one message per issue to #dev-tasks using a Slack webhook.
+
+Read the webhook URL from the environment variable `SLACK_WEBHOOK_DEV_TASKS` (set in `.env`).
+
+For each issue, run:
+```bash
+curl -s -X POST "$SLACK_WEBHOOK_DEV_TASKS" \
+  -H 'Content-type: application/json' \
+  -d '{
+    "text": "*New task:* <ISSUE_URL|ISSUE_ID — ISSUE_TITLE>\n*Project:* PROJECT_NAME\n*Priority:* PRIORITY\n\nCONTEXT_SUMMARY\n\n_Reply with @Claude to assign._"
+  }'
+```
+
+Replace placeholders with actual values. `CONTEXT_SUMMARY` should be 1–2 sentences summarising what needs to be built — not the full description.
+
+If `SLACK_WEBHOOK_DEV_TASKS` is not set, skip this step and note it in the output.
+
+### Step 6 — Report back
 Return:
-- The Linear project name and a direct link if available
-- A numbered list of created issues with their identifiers (e.g. ALE-12) and titles
-- A recommended first issue for the coding agent to pick up (usually the foundation/platform issue)
+- Linear project URL
+- Numbered list of created issues with identifiers and titles
+- Confirmation of Slack posts (or note if skipped)
+- Recommended first issue for the coding agent (usually the foundation issue)
 
 ---
 
 ## Output
-Linear Project + issues created and linked. Summary returned with identifiers.
+Linear Project + issues created. Each issue posted to #dev-tasks in Slack. Summary returned with identifiers.

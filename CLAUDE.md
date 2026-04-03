@@ -18,10 +18,19 @@ Team: Alex + 2 engineers.
 For idea → implementation, follow this chain:
 
 1. **Requirements** — use `ask_user_questions` to gather: goal, users, scope, constraints, priority
-2. **Product agent** — invoke `/product-agent` skill to create a Linear Project (Epic) + child issues
-3. **Coding agent** — invoke `/coding-agent` skill with an issue identifier to implement in a worktree and open a PR
+2. **Product agent** — invoke `/product-agent` skill to create a Linear Project (Epic) + child issues + post each to #dev-tasks in Slack
+3. **Assign** — Alex replies to a Slack issue post with `@Claude <issue URL>` to trigger a Claude Code session
+4. **Coding agent** — Claude Code (via Slack) reads `.mcp.json`, connects to Linear, implements the issue in a worktree, opens a PR, and replies in the Slack thread with the PR link
+5. **Review** — Alex reviews and merges the PR on GitHub
 
-The product-agent handles all Linear writes. The coding-agent handles all code and PR creation.
+The product-agent handles all Linear writes and Slack notifications. The coding-agent handles all code and PR creation.
+
+### Slack setup
+Slack notifications require a webhook URL set in `.env`:
+```
+SLACK_WEBHOOK_DEV_TASKS=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+```
+Create one at: api.slack.com/apps → Incoming Webhooks → Add webhook to #dev-tasks.
 
 ## How I Like to Work
 - Use sub-agents for any task involving multiple tool calls or web research
