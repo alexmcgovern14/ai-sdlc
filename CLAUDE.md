@@ -14,13 +14,22 @@ Team: Alex + 2 engineers.
 - Regulated industry (betting) — compliance and auditability non-negotiable
 - Data infrastructure still maturing — some AI workflows may not yet sign-off
 
+## SDLC Workflow
+For idea → implementation, follow this chain:
+
+1. **Requirements** — use `ask_user_questions` to gather: goal, users, scope, constraints, priority
+2. **Product agent** — invoke `/product-agent` skill to create a Linear Project (Epic) + child issues
+3. **Coding agent** — invoke `/coding-agent` skill with an issue identifier to implement in a worktree and open a PR
+
+The product-agent handles all Linear writes. The coding-agent handles all code and PR creation.
+
 ## How I Like to Work
 - Use sub-agents for any task involving multiple tool calls or web research
 - Keep main session context lean — delegate heavy lifting to sub-agents
 - All document outputs go in /outputs or the relevant /projects subfolder
 - Use the ask_user_questions tool before starting any document, spec, or analysis
 - Format all outputs in markdown unless told otherwise
-- When creating Linear issues, use the story-writer or epic-writer skill
+- When creating Linear issues, use the product-agent skill (for epics + breakdown) or story-writer (for single issues)
 
 ## Sub-Agents
 - research-agent: use for any web research. Runs searches in isolation, returns summary only.
@@ -30,8 +39,10 @@ Team: Alex + 2 engineers.
 ## Skills Available
 - skill-builder: for creating new skills
 - prd-writer: for writing PRDs
-- epic-writer: for writing epics
-- story-writer: for writing user stories and Linear issues
+- epic-writer: for writing epics (document only, no Linear write)
+- story-writer: for writing single user stories / Linear issues
+- product-agent: for full SDLC Epic → creates Linear Project + child issues
+- coding-agent: for picking up a Linear issue and implementing it in a worktree
 - research: for web research tasks
 
 ## Tools Connected
