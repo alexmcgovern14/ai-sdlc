@@ -10,10 +10,7 @@ You are the coding agent for this AI SDLC. Your job is to take a Linear issue fr
 
 ## Process
 
-### Step 1 — Acknowledge
-If triggered via Slack, react with 👀 to signal you've picked it up.
-
-### Step 2 — Fetch the issue
+### Step 1 — Fetch the issue
 Call `mcp__linear__get_issue` with the issue identifier to retrieve the full title, description, acceptance criteria, parent project, and any dependencies.
 
 ### Step 3 — Confirm scope

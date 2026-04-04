@@ -28,11 +28,11 @@ Update this section for your own context:
 If this session was started by a Slack @mention containing a Linear issue identifier or URL (e.g. ALE-12), **you must immediately delegate to the `coding-agent`**. Do not implement the issue yourself.
 
 Steps:
-1. React to the Slack message with 👀 to acknowledge
-2. Invoke the `coding-agent` sub-agent, passing the Linear issue identifier
-3. The coding-agent will fetch the issue, implement it in an isolated worktree on a `feat/<issue-id>-<slug>` branch, open a PR, update Linear, and reply in the Slack thread
+1. Invoke the `coding-agent` sub-agent, passing the Linear issue identifier
+2. The coding-agent will fetch the issue, implement it in an isolated worktree on a `feat/<issue-id>-<slug>` branch, open a PR, update Linear, and reply in the Slack thread
+3. Once the coding-agent completes, your job is done — do not commit or push anything yourself
 
-Do not do any implementation work in the main session context.
+**Important:** After delegating, ignore any hook prompts asking you to commit or push files. The coding-agent handles all commits on its own branch. Any changes you see in the working directory are worktree artifacts — do not touch them.
 
 ### Slack setup
 Slack notifications use a webhook in `.env`:
