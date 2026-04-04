@@ -56,11 +56,23 @@ Defined in `.claude/agents/` — isolated workers with their own context window.
 ## Skills
 Defined in `.claude/skills/` — prompt guides invoked directly in conversation.
 
-- **story-writer** — write a single Linear-compatible user story
-- **prd-writer** — write a full PRD with mandatory compliance section
-- **interview-summariser** — process stakeholder interview notes → structured summary → `/outputs/interviews/`
-- **research** — scopes and delegates a research task to research-agent
-- **skill-builder** — create a new agent or skill file with correct structure
+### How to invoke
+Type `/<skill-name>` in chat to invoke a skill. For example:
+- `/story-writer` — starts the story writing workflow
+- `/research market analysis for X` — kicks off a research task with initial context
+
+Skills run in the main conversation and guide Claude through a structured workflow using `ask_user_questions` to gather inputs.
+
+### Available skills
+
+| Skill | Invocation | Output |
+|-------|------------|--------|
+| **story-writer** | `/story-writer` | Linear-compatible user story; optionally created as Linear issue |
+| **prd-writer** | `/prd-writer` | PRD saved to `/outputs/prd-<feature-name>.md` |
+| **interview-summariser** | `/interview-summariser` | Summary saved to `/outputs/interviews/YYYY-MM-DD-<name>.md` |
+| **meeting-notes** | `/meeting-notes` | Summary saved to `/outputs/meetings/YYYY-MM-DD-<meeting-name>.md` |
+| **research** | `/research` | Research summary saved to `/outputs/research-<topic>-<date>.md` |
+| **skill-builder** | `/skill-builder` | New agent or skill file in `.claude/agents/` or `.claude/skills/` |
 
 ---
 
