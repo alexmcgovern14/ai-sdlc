@@ -26,13 +26,19 @@ You reply @Claude on any Slack issue post
   ▼
 coding-agent (isolated worktree — own branch, own context)
   → reads the Linear issue via MCP
-  → checks CLAUDE.md, REVIEW.md, knowledge/design-system.md
+  → checks CLAUDE.md, knowledge/design-system.md
   → implements the feature on a new branch
-  → CI runs automatically on PR open
-      └─ if CI fails → claude-auto-fix loops until green
   → opens GitHub PR
   → updates Linear issue status to "In Review"
   → replies in Slack thread with PR link
+  │
+  ▼
+Automated QA (runs on every PR)
+  → CI validates structure, no secrets committed
+      └─ if CI fails → claude-auto-fix loops until green
+  → Claude Code Review reads REVIEW.md
+      └─ checks each acceptance criterion against the diff
+      └─ flags violations inline on the PR
   │
   ▼
 You review the PR on GitHub
