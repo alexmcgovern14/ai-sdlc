@@ -34,7 +34,7 @@ For every PR, read the linked Linear issue (URL will be in the PR description). 
 
 This is a Claude Code configuration repo (`ai-sdlc`). It contains:
 - `skills/` — Claude skill files (markdown prompt guides)
-- `knowledge/` — context files about Midnite and the role
+- `knowledge/` — context files about the product, role, and design system
 - `outputs/` — generated outputs (interview summaries, reports)
 - `.mcp.json` — MCP server config for cloud Claude Code sessions
 - `CLAUDE.md` — primary instructions for Claude Code

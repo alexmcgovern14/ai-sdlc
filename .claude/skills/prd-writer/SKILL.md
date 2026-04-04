@@ -1,6 +1,6 @@
 ---
 name: prd-writer
-description: Write a structured Product Requirements Document for Midnite, including a mandatory compliance and risk section. Use when the user wants to spec out a feature before breaking it into issues.
+description: Write a structured Product Requirements Document including a compliance and risk section. Use when the user wants to spec out a feature before breaking it into issues.
 user-invocable: true
 ---
 
@@ -13,7 +13,7 @@ Use ask_user_questions to ask:
 3. Any user research, data, or evidence to draw on?
 4. Must-have functional requirements?
 5. Non-functional requirements (performance, privacy, availability)?
-6. Compliance or regulatory considerations? (mandatory for Midnite)
+6. Compliance or regulatory considerations?
 7. What does success look like? (metrics / KPIs)
 8. What is explicitly out of scope?
 
@@ -40,7 +40,7 @@ Draft | Review | Approved
 <!-- Performance, scalability, availability, privacy -->
 
 ## Compliance & Risk
-<!-- MANDATORY for Midnite — regulated betting environment -->
+<!-- Adapt to your regulatory context -->
 <!-- Cover: data handling, auditability, regulatory exposure, sign-off pathway -->
 
 ## Success Metrics

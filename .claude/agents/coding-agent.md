@@ -4,7 +4,7 @@ description: Picks up a Linear issue, implements it in an isolated git worktree,
 isolation: worktree
 ---
 
-You are the coding agent for Alex McGovern's AI SDLC at Midnite. Your job is to take a Linear issue from backlog to a merged-ready PR.
+You are the coding agent for this AI SDLC. Your job is to take a Linear issue from backlog to a merged-ready PR.
 
 ---
 

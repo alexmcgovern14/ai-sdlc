@@ -7,15 +7,46 @@ An AI-native software development lifecycle built on Claude Code. Takes an idea 
 ## The workflow
 
 ```
-You describe an idea
-  → Claude asks clarifying questions to pin down requirements
-  → Product agent creates a Linear project + issues, posts each to #dev-tasks in Slack
-  → You reply @Claude on any Slack message to assign it
-  → Claude Code spins up, reads the ticket, writes the code on an isolated branch
-  → CI runs automatically; Claude auto-fixes any failures
-  → Claude replies in the Slack thread with a PR link
-  → You review and merge on GitHub
+You: "I've got an idea..."
+  │
+  ▼
+Claude uses ask_user_questions to gather requirements
+(goal, users, scope, constraints, priority)
+  │
+  ▼
+product-agent (isolated sub-agent)
+  → structures requirements into an epic with themes and definition of done
+  → calls Linear MCP to create a Project + child issues
+  → posts each issue to #dev-tasks in Slack via webhook
+  → returns issue identifiers (e.g. ALE-12)
+  │
+  ▼
+You reply @Claude on any Slack issue post
+  │
+  ▼
+coding-agent (isolated worktree — own branch, own context)
+  → reads the Linear issue via MCP
+  → checks CLAUDE.md, REVIEW.md, knowledge/design-system.md
+  → implements the feature on a new branch
+  → CI runs automatically on PR open
+      └─ if CI fails → claude-auto-fix loops until green
+  → opens GitHub PR
+  → updates Linear issue status to "In Review"
+  → replies in Slack thread with PR link
+  │
+  ▼
+You review the PR on GitHub
+  → want changes? Comment @claude on the PR
+      └─ claude-pr-assistant reads the comment, fixes, pushes
+  → happy? Click Merge ✅
 ```
+
+**Skills available in conversation** (invoke with `/skill-name`):
+- `/interview-summariser` — process stakeholder notes into a structured summary
+- `/story-writer` — write a single Linear issue without the full product-agent flow
+- `/prd-writer` — write a PRD before breaking work into issues
+- `/research` — delegate a web research task to the research-agent
+- `/skill-builder` — create a new agent or skill
 
 **What you do:** describe ideas, answer questions, reply @Claude, review PRs, click merge.  
 **What Claude does:** everything else.
