@@ -1,0 +1,48 @@
+name: CI
+
+# Basic CI — runs on every PR and push to main.
+# Extend this with project-specific test commands as repos grow.
+#
+# Current checks:
+# - Validates that no .env files are committed
+# - Validates that .mcp.json is valid JSON
+# - Validates that all skill files have required sections
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check no .env committed
+        run: |
+          if [ -f .env ]; then
+            echo "ERROR: .env file is committed. Remove it and add to .gitignore."
+            exit 1
+          fi
+
+      - name: Validate .mcp.json
+        run: |
+          if [ -f .mcp.json ]; then
+            python3 -c "import json; json.load(open('.mcp.json'))" && echo ".mcp.json is valid JSON"
+          fi
+
+      - name: Validate skill files have required sections
+        run: |
+          failed=0
+          for f in skills/*.md; do
+            for section in "## Trigger" "## Process" "## Output"; do
+              if ! grep -q "$section" "$f"; then
+                echo "MISSING '$section' in $f"
+                failed=1
+              fi
+            done
+          done
+          if [ $failed -eq 1 ]; then exit 1; fi
+          echo "All skill files valid"

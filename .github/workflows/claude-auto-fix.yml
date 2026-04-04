@@ -1,0 +1,47 @@
+name: Claude Auto-Fix
+
+# Triggers when CI fails on a PR.
+# Claude investigates the failure, fixes it, and pushes to the same branch.
+# Guard prevents infinite loop: won't trigger on Claude's own fix commits.
+#
+# Required GitHub secret: ANTHROPIC_API_KEY
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+jobs:
+  auto-fix:
+    # Only run if CI failed, and not on a branch Claude already created
+    if: |
+      github.event.workflow_run.conclusion == 'failure' &&
+      !startsWith(github.event.workflow_run.head_branch, 'claude-auto-fix-')
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          max_turns: 10
+          prompt: |
+            The CI workflow failed on this PR. Please:
+            1. Read the CI failure output and identify the root cause
+            2. Fix the issue — do not change more than what is needed
+            3. Verify the fix would pass the checks by re-reading the relevant files
+            4. Commit the fix with a message: "fix: auto-fix CI failure"
+
+            Do not make speculative changes. If the failure is ambiguous or requires
+            architectural decisions, add a PR comment explaining why and stop.
+
+            Check REVIEW.md for review standards that must be maintained.

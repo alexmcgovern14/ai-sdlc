@@ -1,0 +1,14 @@
+# Environment
+.env
+
+# macOS
+.DS_Store
+
+# Claude local settings
+.claude/settings.local.json
+
+# Sensitive knowledge files — populate locally, do not commit
+knowledge/presentation-thoughts.md
+knowledge/role.md
+knowledge/people.md
+knowledge/midnite.md

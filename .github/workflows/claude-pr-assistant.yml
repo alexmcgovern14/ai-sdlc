@@ -1,0 +1,37 @@
+name: Claude PR Assistant
+
+# Responds to @claude mentions in PR review comments and issue comments.
+# Use this to request changes, ask questions, or send Claude back to fix something.
+#
+# Usage examples in a PR comment:
+#   @claude the sentiment labels should use enthusiastic/cautious/sceptical not positive/negative
+#   @claude add a catch-all "Other Notable Points" section to the output template
+#   @claude the file naming convention doesn't match what was specified in ALE-7
+#
+# Required GitHub secret: ANTHROPIC_API_KEY
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude-response:
+    # Only run when @claude is mentioned
+    if: contains(github.event.comment.body, '@claude')
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          max_turns: 15
