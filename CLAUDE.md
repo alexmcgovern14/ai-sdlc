@@ -23,6 +23,17 @@ Update this section for your own context:
 5. **QA** — CI runs automatically; auto-fix loops on failure; REVIEW.md checked; comment `@claude` on PR for changes
 6. **Review** — approve and merge on GitHub
 
+### When triggered via Slack
+
+If this session was started by a Slack @mention containing a Linear issue identifier or URL (e.g. ALE-12), **you must immediately delegate to the `coding-agent`**. Do not implement the issue yourself.
+
+Steps:
+1. React to the Slack message with 👀 to acknowledge
+2. Invoke the `coding-agent` sub-agent, passing the Linear issue identifier
+3. The coding-agent will fetch the issue, implement it in an isolated worktree on a `feat/<issue-id>-<slug>` branch, open a PR, update Linear, and reply in the Slack thread
+
+Do not do any implementation work in the main session context.
+
 ### Slack setup
 Slack notifications use a webhook in `.env`:
 ```
