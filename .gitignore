@@ -6,6 +6,7 @@
 
 # Claude local settings
 .claude/settings.local.json
+.claude/worktrees/
 
 # Sensitive knowledge files — populate locally, do not commit
 knowledge/presentation-thoughts.md
