@@ -44,6 +44,7 @@ The product-agent handles all Linear writes. The coding-agent handles all code a
 - product-agent: for full SDLC Epic → creates Linear Project + child issues
 - coding-agent: for picking up a Linear issue and implementing it in a worktree
 - research: for web research tasks
+- themes-report: for aggregating cross-interview themes into a synthesis report
 
 ## Tools Connected
 - Google Workspace MCP
