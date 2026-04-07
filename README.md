@@ -27,8 +27,10 @@ You reply @Claude on any Slack issue post
 coding-agent (isolated worktree — own branch, own context)
   → reads the Linear issue via MCP
   → checks CLAUDE.md, knowledge/design-system.md
-  → implements the feature on a new branch
-  → opens GitHub PR
+  → baselines the existing test suite before touching anything
+  → writes failing tests first (red), implements until passing (green)
+  → adversarial review pass — checks for hallucinated methods, edge cases, deprecated APIs
+  → opens GitHub PR with [AI-Generated] tags on all source files
   → updates Linear issue status to "In Review"
   → replies in Slack thread with PR link
   │
@@ -49,9 +51,11 @@ You review the PR on GitHub
 
 **Skills available in conversation** (invoke with `/skill-name`):
 - `/interview-summariser` — process stakeholder notes into a structured summary
+- `/meeting-notes` — turn raw meeting notes into a structured markdown summary
 - `/story-writer` — write a single Linear issue without the full product-agent flow
 - `/prd-writer` — write a PRD before breaking work into issues
 - `/research` — delegate a web research task to the research-agent
+- `/slack-pulse` — scan Slack for unresolved questions and gaps not tracked in Linear
 - `/skill-builder` — create a new agent or skill
 
 **What you do:** describe ideas, answer questions, reply @Claude, review PRs, click merge.  
@@ -67,12 +71,15 @@ You review the PR on GitHub
 │   ├── product-agent.md     # Requirements → Linear project + issues + Slack
 │   ├── coding-agent.md      # Linear issue → code → PR (runs in isolated worktree)
 │   ├── research-agent.md    # Web research, returns summary only
-│   └── linear-agent.md      # Lightweight Linear queries and updates
+│   ├── linear-agent.md      # Lightweight Linear queries and updates
+│   └── slack-pulse-agent.md # Scans Slack for gaps not tracked in Linear
 └── skills/                  # Prompt guides — invoked directly in conversation
     ├── interview-summariser/ # Stakeholder notes → structured markdown summary
+    ├── meeting-notes/        # Raw meeting notes → structured summary
     ├── story-writer/         # Write a single Linear-compatible user story
     ├── prd-writer/           # Write a PRD with mandatory compliance section
     ├── research/             # Scopes and delegates a research task
+    ├── slack-pulse/          # Slack intelligence digest cross-referenced with Linear
     └── skill-builder/        # Create a new agent or skill
 
 .github/workflows/

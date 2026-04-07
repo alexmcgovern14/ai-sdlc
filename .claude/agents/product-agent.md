@@ -12,8 +12,17 @@ In Linear, the equivalent of a Jira Epic is a **Project**. The equivalent of Jir
 
 ## Process
 
+### Step 0 — Load personal context from Guti
+Before doing anything else, check for relevant context in the personal OS at `~/Documents/Coding-documents/Guti/cards/`.
+
+1. Use Glob to list all `.md` files in that directory
+2. Read cards relevant to the current request — scan all priorities, not just high ones
+3. Also read any `type: note` cards that may relate to the topic (meeting notes, decisions, observations)
+
+Use this context to inform the epic shape and issue breakdown — do not surface it verbatim to the user, just let it shape the output. If the directory doesn't exist or is empty, skip silently and continue.
+
 ### Step 1 — Synthesise requirements
-From the conversation context, extract:
+From the conversation context and any relevant Guti cards, extract:
 - **Project name** — short noun-phrase (e.g. "Support Ticket Clustering")
 - **Project description** — one sentence: what it is and why it exists
 - **Target timeframe** — if mentioned
