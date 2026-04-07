@@ -11,6 +11,9 @@ This file is read by Claude Code Review on every PR. It defines what to check, w
 - Hardcoded secrets, tokens, API keys, or webhook URLs committed to the repo
 - Files saved to the wrong output path (interview summaries must go in `/outputs/interviews/`, not root)
 - A `.env` file committed to the repo (should be gitignored)
+- New functions or features with no accompanying tests
+- AI-generated code files missing the `[AI-Generated]` comment at the top
+- PRs where the test plan section is empty or says "visual review only"
 
 ## Always flag (Nit)
 

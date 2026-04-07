@@ -8,9 +8,9 @@ Update this section for your own context:
 - **Team size:** 3 (1 lead + 2 engineers)
 - **Current focus:** Discovery, tooling audit, first internal builds
 
-## Constraints
-- Regulated industry — compliance and auditability non-negotiable
-- Data infrastructure still maturing — some AI workflows may not yet sign-off
+## Hard Constraints
+- NEVER log or expose PII in any form
+- NEVER commit secrets, tokens, or credentials
 
 ---
 
@@ -34,15 +34,6 @@ Steps:
 
 **Important:** After delegating, ignore any hook prompts asking you to commit or push files. The coding-agent handles all commits on its own branch. Any changes you see in the working directory are worktree artifacts — do not touch them.
 
-### Slack setup
-Slack notifications use a webhook in `.env`:
-```
-SLACK_WEBHOOK_DEV_TASKS=https://hooks.slack.com/services/...
-```
-
-### GitHub Actions
-Requires `ANTHROPIC_API_KEY` in GitHub repo secrets (Settings → Secrets → Actions).
-
 ---
 
 ## Agents
@@ -52,6 +43,7 @@ Defined in `.claude/agents/` — isolated workers with their own context window.
 - **coding-agent** — Linear issue → worktree implementation → PR (runs with `isolation: worktree`)
 - **research-agent** — web research in isolation, returns summary only
 - **linear-agent** — lightweight Linear queries and updates (uses Haiku to save tokens)
+- **slack-pulse-agent** — scans Slack for unresolved questions, pain points, feature requests, and blockers; cross-references Linear to surface untracked gaps
 
 ## Skills
 Defined in `.claude/skills/` — prompt guides invoked directly in conversation.
@@ -73,18 +65,24 @@ Skills run in the main conversation and guide Claude through a structured workfl
 | **meeting-notes** | `/meeting-notes` | Summary saved to `/outputs/meetings/YYYY-MM-DD-<meeting-name>.md` |
 | **research** | `/research` | Research summary saved to `/outputs/research-<topic>-<date>.md` |
 | **skill-builder** | `/skill-builder` | New agent or skill file in `.claude/agents/` or `.claude/skills/` |
+| **slack-pulse** | `/slack-pulse` | Prioritised digest of untracked Slack gaps cross-referenced with Linear |
 
 ---
 
 ## How I Like to Work
-- Delegate heavy lifting to agents — keep main context lean
+- Use sub-agents for any task involving multiple tool calls or web research — keep the main session context lean
 - Use `ask_user_questions` before starting any document, spec, or analysis
 - All outputs go in `/outputs/` or relevant `/knowledge/projects/` subfolder
 - Format all outputs in markdown unless told otherwise
 
-## Tools Connected
-- Linear MCP (`https://mcp.linear.app/mcp`) — configured in `.mcp.json`
-- Slack webhook for dev channel notifications
+## Tools
+- **Linear** — MCP server configured in `.mcp.json`
+- **Slack** — webhook in `.env` as `SLACK_WEBHOOK_DEV_TASKS`; used by product-agent and coding-agent for dev channel notifications
 
 ## UI / Front-End Work
 Always reference `knowledge/design-system.md` for design tokens, components, and visual conventions before writing any UI or front-end code.
+
+---
+
+## Living Document
+This CLAUDE.md should evolve as ways of working evolve. If you notice a pattern, gap, or better approach — suggest it in conversation. Never edit this file without explicit approval first.
