@@ -35,3 +35,15 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           max_turns: 15
+          mcp_config: |
+            {
+              "mcpServers": {
+                "linear": {
+                  "type": "http",
+                  "url": "https://mcp.linear.app/mcp",
+                  "headers": {
+                    "Authorization": "Bearer ${{ secrets.LINEAR_API_KEY }}"
+                  }
+                }
+              }
+            }

@@ -34,6 +34,18 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           max_turns: 10
+          mcp_config: |
+            {
+              "mcpServers": {
+                "linear": {
+                  "type": "http",
+                  "url": "https://mcp.linear.app/mcp",
+                  "headers": {
+                    "Authorization": "Bearer ${{ secrets.LINEAR_API_KEY }}"
+                  }
+                }
+              }
+            }
           prompt: |
             The CI workflow failed on this PR. Please:
             1. Read the CI failure output and identify the root cause
