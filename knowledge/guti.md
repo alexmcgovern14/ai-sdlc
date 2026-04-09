@@ -32,5 +32,12 @@ Guti exposes a local REST API (when running):
 
 ## Relationship to ai-sdlc
 - The product-agent reads guti cards for context before structuring requirements
-- Meeting notes and action items from Granola will be written to guti automatically (in progress — ALE-11 to ALE-15)
+- Meeting notes and action items from Granola are synced via `services/granola-guti-sync/`
 - Cloud agents (Slack-triggered) cannot access guti directly — relevant context should be included in Linear issue descriptions by the product-agent
+
+## Granola Integration
+The `granola-guti-sync` service receives webhooks from the `granola-webhook` daemon and creates cards in Guti:
+- Meeting notes → `note` cards with attendees, summary, action items
+- Optional: Action items → separate `task` cards
+
+See `services/granola-guti-sync/README.md` for setup instructions.
