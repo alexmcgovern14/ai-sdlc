@@ -52,6 +52,7 @@ You review the PR on GitHub
 **Skills available in conversation** (invoke with `/skill-name`):
 - `/interview-summariser` — process stakeholder notes into a structured summary
 - `/meeting-notes` — turn raw meeting notes into a structured markdown summary
+- `/granola-sync` — sync recent Granola meetings into Guti as note cards and action item task cards
 - `/story-writer` — write a single Linear issue without the full product-agent flow
 - `/prd-writer` — write a PRD before breaking work into issues
 - `/research` — delegate a web research task to the research-agent
@@ -76,6 +77,7 @@ You review the PR on GitHub
 └── skills/                  # Prompt guides — invoked directly in conversation
     ├── interview-summariser/ # Stakeholder notes → structured markdown summary
     ├── meeting-notes/        # Raw meeting notes → structured summary
+    ├── granola-sync/         # Granola meetings → Guti note + task cards
     ├── story-writer/         # Write a single Linear-compatible user story
     ├── prd-writer/           # Write a PRD with mandatory compliance section
     ├── research/             # Scopes and delegates a research task

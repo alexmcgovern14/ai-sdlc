@@ -78,7 +78,18 @@ Structure each issue description as:
 3. Note each returned issue identifier (e.g. ALE-12) and URL
 
 ### Step 5 — Post to Slack #dev-tasks
-Load the webhook URL from `SLACK_WEBHOOK_DEV_TASKS` in `.env`. Post one message per issue:
+Load the webhook URL from `SLACK_WEBHOOK_DEV_TASKS` in `.env`.
+
+**First, post one project-level message** so the whole project can be assigned at once:
+
+```bash
+source .env 2>/dev/null || true
+curl -s -X POST "$SLACK_WEBHOOK_DEV_TASKS" \
+  -H 'Content-type: application/json' \
+  -d "{\"text\": \"*New project:* <PROJECT_URL|PROJECT_NAME>\n*Issues:* N issues ready\n\nPROJECT_GOAL_SENTENCE\n\n_Reply with @Claude to work the full project._\"}"
+```
+
+**Then post one message per issue:**
 
 ```bash
 source .env 2>/dev/null || true

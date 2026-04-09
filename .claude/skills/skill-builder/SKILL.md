@@ -66,5 +66,13 @@ user-invocable: true | false
 ### Step 4 — Update CLAUDE.md
 Add the new agent or skill to the relevant section in `CLAUDE.md`.
 
+### Step 5 — Commit to git
+Stage and commit the new file and the CLAUDE.md update:
+```bash
+git add .claude/agents/<name>.md  # or .claude/skills/<name>/
+git add CLAUDE.md
+git commit -m "feat: add <name> agent|skill"
+```
+
 ## Output
-One new file in `.claude/agents/` or `.claude/skills/<name>/`. CLAUDE.md updated.
+One new file in `.claude/agents/` or `.claude/skills/<name>/`. CLAUDE.md updated. Changes committed to git.
