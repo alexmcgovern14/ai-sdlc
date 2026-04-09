@@ -66,6 +66,7 @@ Skills run in the main conversation and guide Claude through a structured workfl
 | **research** | `/research` | Research summary saved to `/outputs/research-<topic>-<date>.md` |
 | **skill-builder** | `/skill-builder` | New agent or skill file in `.claude/agents/` or `.claude/skills/` |
 | **slack-pulse** | `/slack-pulse` | Prioritised digest of untracked Slack gaps cross-referenced with Linear |
+| **10x-setup** | `/10x-setup` | Audit Claude Code, Cursor, and Codex releases + influencer patterns → gap analysis + action list saved to `/outputs/10x-setup-<date>.md` |
 
 ---
 
