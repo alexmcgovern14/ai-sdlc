@@ -41,6 +41,11 @@ Dependencies: <other teams, systems, decisions>
 Risks & Compliance: <flag anything regulated or sensitive>
 ```
 
+### Step 2b — Identify systems the cloud agent won't know about
+Cloud coding-agents only see the repo and the Linear issue. Before writing issues, identify any tools, systems, or local context involved in the work that aren't described in the repo's `knowledge/` files. Include a brief description of these systems directly in the relevant issue bodies — don't assume the coding-agent will know what they are.
+
+Common example: if the work involves Guti, include a reference to `knowledge/guti.md` and summarise the relevant details inline.
+
 ### Step 3 — Break down into issues
 For each issue:
 - **Title:** Action-oriented verb phrase (e.g. "Ingest Intercom tickets via API")
